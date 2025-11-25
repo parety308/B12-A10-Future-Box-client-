@@ -1,15 +1,47 @@
 import { createBrowserRouter } from "react-router";
 import Root from "../components/Root/Root";
+import Home from "../components/Home/Home";
+import AllProperties from "../components/AllProperties/AllProperties";
+import MyProperties from "../components/MyProperties/MyProperties";
+import AddProperties from "../components/AddProperties/AddProperties";
+import MyRatings from "../components/MyRatings/MyRatings";
+import Login from "../Authentiaction/Login/Login"
+import Signup from "../Authentiaction/Signup/Signup"
+export const router = createBrowserRouter([
 
- export const router=createBrowserRouter([
+  {
+    path: "/",
+    Component: Root,
+    children: [
+      {
+        index: true,
+        Component: Home
+      },
+      {
+        path: "/allProperties",
+        Component: AllProperties
+      },
+      {
+        path: "/myProperties",
+        Component: MyProperties
+      },
+      {
+        path: "/addProperties",
+        Component: AddProperties
+      },
+      {
+        path: "/myRatings",
+        Component: MyRatings
+      },
 
-{
-    path:"/",
-    Component:Root,
-    children:[
-        {
-            
-        }
+      {
+        path: "/login",
+        Component: Login
+      },
+      {
+        path: "/signup",
+        Component: Signup
+      }
     ]
-}
+  }
 ]);
