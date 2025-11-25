@@ -24,7 +24,7 @@ const Signup = () => {
                         // image: photoURL
                         // }
                         //    create user in database
-                        // fetch('http://localhost:3000/users', {
+                        // fetch('https://assignment-10-server-ten-dun.vercel.app/users', {
                         // method: "POST",
                         // headers: {
                         // "Content-Type": 'application/json'
@@ -49,7 +49,7 @@ const Signup = () => {
     };
     const handleGoogleLogIn = () => {
         signInWithGoogle().then(res => {
-            console.log(res.user);
+            // console.log(res.user);
             setUser(res.user);
             // const newUser = {
             // name: res.user.displayName,
@@ -57,7 +57,7 @@ const Signup = () => {
             // image: res.user.photoURL
             // }
             // create user in database
-            // fetch('http://localhost:3000/users', {
+            // fetch('https://assignment-10-server-ten-dun.vercel.app/users', {
             // method: "POST",
             // headers: {
             // "Content-Type": 'application/json'
@@ -76,7 +76,7 @@ const Signup = () => {
             navigate('/');
         })
             .catch(error => console.log(error));
-        console.log("Google Sign In");
+        // console.log("Google Sign In");
     }
 
     return (

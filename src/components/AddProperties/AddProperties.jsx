@@ -29,10 +29,10 @@ const AddProperties = () => {
       postedDate: new Date().toISOString()
     };
 
-    console.log(newProperty);
+    // console.log(newProperty);
 
     // TODO: send newProperty to your backend API
-    fetch('http://localhost:3000/items',
+    fetch('https://assignment-10-server-ten-dun.vercel.app/items',
       {
         method: 'POST',
         body: JSON.stringify(newProperty),
@@ -47,7 +47,7 @@ const AddProperties = () => {
           showConfirmButton: false,
           timer: 1500
         });
-        console.log('Success:', data);
+        // console.log('Success:', data);
       });
 
     e.target.reset();

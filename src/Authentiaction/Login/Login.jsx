@@ -15,7 +15,7 @@ const Login = () => {
     const password = e.target.password.value;
     signInUser(email, password)
       .then(res => {
-        console.log(res.user);
+        // console.log(res.user);
         setUser(res.user);
         Swal.fire({
           position: "top-end",
