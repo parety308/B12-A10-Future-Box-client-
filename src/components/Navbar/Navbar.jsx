@@ -6,11 +6,11 @@ import Swal from 'sweetalert2';
 const Navbar = () => {
     const { user, logOut, setUser } = use(AuthContext);
     const links = <>
-        <li className='text-xl font-semibold'><NavLink to='/'>Home</NavLink></li>
-        <li className='text-xl font-semibold'><NavLink to='allProperties'>All Propertie</NavLink></li>
-        <li className='text-xl font-semibold'><NavLink to='addProperties'>Add Properties</NavLink></li>
-        <li className='text-xl font-semibold'><NavLink to='myProperties'>My Properties</NavLink></li>
-        <li className='text-xl font-semibold'><NavLink to='myRatings'>My Ratings</NavLink></li>
+        <li className='text-lg font-semibold'><NavLink to='/'>Home</NavLink></li>
+        <li className='text-lg font-semibold'><NavLink to='allProperties'>All Properties</NavLink></li>
+        <li className='text-lg font-semibold'><NavLink to='addProperties'>Add Properties</NavLink></li>
+        <li className='text-lg font-semibold'><NavLink to='myProperties'>My Properties</NavLink></li>
+        <li className='text-lg font-semibold'><NavLink to='myRatings'>My Ratings</NavLink></li>
     </>
     const handlelogOut = () => {
         logOut()
@@ -39,7 +39,7 @@ const Navbar = () => {
                         {links}
                     </ul>
                 </div>
-                <a className="btn btn-ghost text-xl">daisyUI</a>
+                <a className="btn btn-ghost text-2xl text-green-900 font-bold"><img src="https://i.ibb.co.com/Y72Kcc9g/image.png" alt=""  className='w-12 h-12 rounded-full'/>HomeNest</a>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
