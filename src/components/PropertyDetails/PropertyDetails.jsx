@@ -8,8 +8,12 @@ const PropertyDetails = () => {
     const property = useLoaderData();
     const navigate = useNavigate();
     const { user, reviews, setReviews } = useContext(AuthContext);
+    
+    const [rating, setRating] = useState(3);
+    const [reviewText, setReviewText] = useState("");
 
     const {
+        _id,
         propertyName,
         description,
         price,
@@ -20,34 +24,29 @@ const PropertyDetails = () => {
         postedBy: { name, email, profilePhoto }
     } = property;
 
-    const [rating, setRating] = useState(3);
-    const [reviewText, setReviewText] = useState("");
-
-    // submit review
     const handleReviewSubmit = (e) => {
         e.preventDefault();
 
         const newReview = {
-            propertyId: property._id,
-            reviewerName: user.displayName,
-            reviewerEmail: user.email,
-            reviewerPhoto: user.photoURL,
+            propertyId: _id,              // ⭐ VERY IMPORTANT
             propertyName,
-            thumbnail: propertyImage,
+            propertyImage,                // thumbnail
+            reviewerName: user?.displayName,
+            reviewerEmail: user?.email,
             rating,
             reviewText,
-            date: new Date().toLocaleString()
+            date: new Date().toLocaleString(),
         };
 
-        setReviews([...reviews, newReview]);
+        setReviews([...reviews, newReview]); 
 
         setReviewText("");
         setRating(0);
     };
 
-    // filter reviews related to this property only
+    // ⭐ FILTER REVIEWS FOR THIS SPECIFIC PROPERTY
     const propertyReviews = reviews.filter(
-        (rev) => rev.propertyId === property._id
+        (rev) => rev.propertyId === _id
     );
 
     return (
@@ -56,7 +55,7 @@ const PropertyDetails = () => {
                 HomeNest - A Real Estate Listing Portal
             </h1>
 
-            {/* PROPERTY IMAGE + INFO */}
+            {/* PROPERTY INFO */}
             <div className="w-10/12 mx-auto my-5 ">
                 <figure>
                     <img
@@ -67,7 +66,9 @@ const PropertyDetails = () => {
                 </figure>
 
                 <div className="card-body text-xl shadow rounded-xl ">
-                    <h2 className="card-title text-2xl font-bold">Property Name: {propertyName}</h2>
+                    <h2 className="card-title text-2xl font-bold">
+                        Property Name: {propertyName}
+                    </h2>
 
                     <p><span className='font-semibold'>Provided By:</span> {name}</p>
                     <p><span className='font-semibold'>Category:</span> {category}</p>
@@ -89,7 +90,7 @@ const PropertyDetails = () => {
                     Ratings & Reviews
                 </h2>
 
-                {/* rating form */}
+                {/* REVIEW FORM */}
                 <form onSubmit={handleReviewSubmit} className="mb-8">
                     <label className="font-semibold text-xl">Your Rating:</label>
 
@@ -114,7 +115,7 @@ const PropertyDetails = () => {
                     </button>
                 </form>
 
-                {/* DISPLAY REVIEWS */}
+                {/* REVIEW LIST */}
                 <div>
                     <h3 className="text-2xl font-semibold mb-3">User Reviews:</h3>
 
@@ -124,10 +125,10 @@ const PropertyDetails = () => {
 
                     {propertyReviews.map((rev, idx) => (
                         <div key={idx} className="p-4 border rounded-lg mb-4 flex gap-4">
-                            
-                            {/* property thumbnail */}
+
+                            {/* Thumbnail */}
                             <img
-                                src={rev.thumbnail}
+                                src={rev.propertyImage}
                                 className="w-24 h-20 object-cover rounded"
                                 alt=""
                             />
@@ -135,7 +136,7 @@ const PropertyDetails = () => {
                             <div>
                                 <h4 className="font-bold">{rev.propertyName}</h4>
 
-                                {/* reviewer name */}
+                                {/* Reviewer */}
                                 <p className="text-sm text-gray-600">
                                     Reviewer: {rev.reviewerName}
                                 </p>
@@ -152,6 +153,7 @@ const PropertyDetails = () => {
                         </div>
                     ))}
                 </div>
+
             </div>
         </div>
     );
