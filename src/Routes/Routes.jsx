@@ -8,6 +8,8 @@ import MyRatings from "../components/MyRatings/MyRatings";
 import Login from "../Authentiaction/Login/Login"
 import Signup from "../Authentiaction/Signup/Signup"
 import PropertyDetails from "../components/PropertyDetails/PropertyDetails";
+import PrivateRoutes from "./PrivateRoutes";
+import UpdateProperty from "../components/UpdateProperty/UpdateProperty";
 export const router = createBrowserRouter([
 
   {
@@ -24,17 +26,17 @@ export const router = createBrowserRouter([
       },
       {
         path: "/myProperties",
-        Component: MyProperties
+        element: <PrivateRoutes><MyProperties /></PrivateRoutes>
       },
       {
         path: "/addProperties",
-        Component: AddProperties
+        element: <PrivateRoutes><AddProperties /></PrivateRoutes>
       },
       {
         path: "/myRatings",
-        Component: MyRatings
-      },
-
+        element: <PrivateRoutes><MyRatings /></PrivateRoutes>
+      }
+      ,
       {
         path: "/login",
         Component: Login
@@ -45,9 +47,16 @@ export const router = createBrowserRouter([
       },
       {
         path: "/property/:id",
-        loader:({params})=>fetch(`http://localhost:3000/items/${params.id}`),
-        Component:PropertyDetails
+        loader: ({ params }) => fetch(`http://localhost:3000/items/${params.id}`),
+        Component: PropertyDetails
+      },
+      {
+        path: "/updateProperty/:id",
+        element: <PrivateRoutes><UpdateProperty /></PrivateRoutes>,
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/items/${params.id}`)
       }
+
     ]
   }
 ]);

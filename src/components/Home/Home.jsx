@@ -6,7 +6,6 @@ const latestProperties= fetch('http://localhost:3000/recent-items').then(res => 
 const Home = () => {
     return (
         <div>
-            <h1 className="text-4xl">Home</h1>
             <Banner></Banner>
             <LatestProperties latestProperties={latestProperties}></LatestProperties>
         </div>

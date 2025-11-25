@@ -1,5 +1,6 @@
 import { use } from "react";
 import { AuthContext } from "../../Provider/AuthContext";
+import Swal from "sweetalert2";
 const AddProperties = () => {
   const { user } = use(AuthContext);
 
@@ -17,12 +18,14 @@ const AddProperties = () => {
       propertyName,
       description,
       category,
-      price,
+      price: Number(price),
       location,
       propertyImage,
-      email: user?.email,
-      userName: user?.displayName,
-      userPhoto: user?.photoURL,
+      postedBy: {
+        name: user.displayName,
+        email: user.email,
+        profilePhoto: user.photoURL
+      },
       postedDate: new Date().toISOString()
     };
 
@@ -37,6 +40,13 @@ const AddProperties = () => {
       })
       .then(res => res.json())
       .then(data => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Sign In Successfully",
+          showConfirmButton: false,
+          timer: 1500
+        });
         console.log('Success:', data);
       });
 
