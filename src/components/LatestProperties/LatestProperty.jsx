@@ -4,7 +4,7 @@ const LatestProperty = ({ property }) => {
     return (
         <div className="card bg-base-100 border-gray-300 border shadow-sm flex flex-col">
             <figure className="p-2">
-                <img className="rounded-xl"
+                <img className="rounded-xl w-full h-48 object-cover"
                     src={property.propertyImage}
                     alt="Shoes" />
             </figure>

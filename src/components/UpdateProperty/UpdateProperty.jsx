@@ -46,7 +46,7 @@ const UpdateProperty = () => {
     const handleUpdate = (e) => {
         e.preventDefault();
 
-        fetch(`https://assignment-10-server-ten-dun.vercel.app/items/${id}`, {
+        fetch(`http://localhost:3000/${id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

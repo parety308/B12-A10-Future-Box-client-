@@ -32,7 +32,7 @@ const AddProperties = () => {
     // console.log(newProperty);
 
     // TODO: send newProperty to your backend API
-    fetch('https://assignment-10-server-ten-dun.vercel.app/items',
+    fetch('http://localhost:3000',
       {
         method: 'POST',
         body: JSON.stringify(newProperty),

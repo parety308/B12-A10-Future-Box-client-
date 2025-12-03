@@ -11,7 +11,7 @@ const MyProperties = () => {
     useEffect(() => {
         if (!user) return;
 
-        fetch(`https://assignment-10-server-ten-dun.vercel.app/items?email=${user.email}`)
+        fetch(`http://localhost:3000?email=${user.email}`)
             .then(res => res.json())
             .then(data => setProperties(data))
             .catch(err => console.log(err));
@@ -29,7 +29,7 @@ const MyProperties = () => {
             cancelButtonText: "Cancel",
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`https://assignment-10-server-ten-dun.vercel.app/items/${id}`, { method: "DELETE" })
+                fetch(`http://localhost:3000/${id}`, { method: "DELETE" })
                     .then(res => res.json())
                     .then(() => {
                         Swal.fire("Deleted!", "Your property has been deleted.", "success");

@@ -1,7 +1,7 @@
 import React, { use } from 'react';
 import LatestProperty from '../LatestProperties/LatestProperty';
 
-const allPropertiesPromise = fetch('https://assignment-10-server-ten-dun.vercel.app/items').then(res => res.json());
+const allPropertiesPromise = fetch('http://localhost:3000/items').then(res => res.json());
 const AllProperties = () => {
     const allProperties = use(allPropertiesPromise);
     return (
