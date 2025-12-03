@@ -1,17 +1,18 @@
 import { Link, useLoaderData, useNavigate } from "react-router";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../Provider/AuthContext";
 import Swal from "sweetalert2";
 
 const PropertyDetails = () => {
     const property = useLoaderData();
     const navigate = useNavigate();
-    const { user, reviews, setReviews } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
 
     const [rating, setRating] = useState(3);
     const [reviewText, setReviewText] = useState("");
+    const [propertyReviews, setPropertyReviews] = useState([]);
 
     const {
         _id,
@@ -27,7 +28,15 @@ const PropertyDetails = () => {
 
     const { name } = postedBy;
 
-    //   HANDLE REVIEW SUBMIT
+    // Fetch reviews for this property
+    useEffect(() => {
+        fetch(`http://localhost:3000/reviews/${_id}`)
+            .then(res => res.json())
+            .then(data => setPropertyReviews(data))
+            .catch(err => console.log(err));
+    }, [_id]);
+
+    // HANDLE REVIEW SUBMIT
     const handleReviewSubmit = (e) => {
         e.preventDefault();
 
@@ -60,9 +69,6 @@ const PropertyDetails = () => {
             date: new Date().toLocaleString(),
         };
 
-        // --------------------------
-        //   SEND TO SERVER
-        // --------------------------
         fetch("http://localhost:3000/reviews", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -72,7 +78,7 @@ const PropertyDetails = () => {
             .then(data => {
                 if (data.insertedId) {
                     // Update UI instantly
-                    setReviews([...reviews, newReview]);
+                    setPropertyReviews([...propertyReviews, newReview]);
 
                     Swal.fire({
                         icon: "success",
@@ -96,20 +102,14 @@ const PropertyDetails = () => {
             });
     };
 
-    // --------------------------
-    //   FILTER REVIEWS
-    const propertyReviews = reviews.filter(
-        (rev) => rev.propertyId === _id
-    );
-
     return (
-        <div className=" w-10/12 mx-auto my-5 ">
-            <h1 className=' text-center text-5xl my-15 font-bold text-green-900'>
+        <div className="w-10/12 mx-auto my-5">
+            <h1 className='text-center text-5xl my-15 font-bold text-green-900'>
                 HomeNest - A Real Estate Listing Portal
             </h1>
 
             {/* PROPERTY INFO */}
-            <div className="w-10/12 mx-auto my-5 ">
+            <div className="w-10/12 mx-auto my-5">
                 <figure>
                     <img
                         src={propertyImage}
@@ -118,11 +118,10 @@ const PropertyDetails = () => {
                     />
                 </figure>
 
-                <div className="card-body text-xl shadow rounded-xl ">
+                <div className="card-body text-xl shadow rounded-xl">
                     <h2 className="card-title text-2xl font-bold">
                         Property Name: {propertyName}
                     </h2>
-
                     <p><span className='font-semibold'>Provided By:</span> {name}</p>
                     <p><span className='font-semibold'>Category:</span> {category}</p>
                     <p><span className='font-semibold'>Location:</span> {location}</p>
@@ -131,13 +130,10 @@ const PropertyDetails = () => {
                     <p><span className='font-semibold'>Price:</span> {price} BDT</p>
 
                     <div className="card-actions justify-between">
-                        <Link 
-                            onClick={() => navigate(-1)} 
-                            className="btn btn-primary"
-                        >
+                        <Link onClick={() => navigate(-1)} className="btn btn-primary">
                             Go Back
                         </Link>
-                        <button className="btn btn-primary">Add To Cart</button>
+                        <button onClick={()=>navigate(`/updateProperty/${_id}`)} className="btn btn-primary">Update</button>
                     </div>
                 </div>
             </div>
@@ -151,7 +147,6 @@ const PropertyDetails = () => {
                 {/* REVIEW FORM */}
                 <form onSubmit={handleReviewSubmit} className="mb-8">
                     <label className="font-semibold text-xl">Your Rating:</label>
-
                     <div className="my-3">
                         <Rating
                             style={{ maxWidth: 180 }}
@@ -183,33 +178,27 @@ const PropertyDetails = () => {
 
                     {propertyReviews.map((rev, idx) => (
                         <div key={idx} className="p-4 border rounded-lg mb-4 flex gap-4">
-
                             <img
                                 src={rev.propertyImage}
                                 className="w-24 h-20 object-cover rounded"
                                 alt=""
                             />
-
                             <div>
                                 <h4 className="font-bold">{rev.propertyName}</h4>
-
                                 <p className="text-sm text-gray-600">
                                     Reviewer: {rev.reviewerName}
                                 </p>
-
                                 <Rating
                                     style={{ maxWidth: 120 }}
                                     value={rev.rating}
                                     readOnly
                                 />
-
                                 <p className="mt-2">{rev.reviewText}</p>
                                 <p className="text-sm text-gray-500">Posted: {rev.date}</p>
                             </div>
                         </div>
                     ))}
                 </div>
-
             </div>
         </div>
     );

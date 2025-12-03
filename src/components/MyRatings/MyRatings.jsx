@@ -1,15 +1,20 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Provider/AuthContext";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 
 const MyRatings = () => {
-    const { reviews, user } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
+    const [myReviews, setMyReviews] = useState([]);
 
-    // Show only the ratings created by the logged-in user
-    const myReviews = reviews.filter(
-        (rev) => rev.reviewerEmail === user?.email
-    );
+    useEffect(() => {
+        if (user?.email) {
+            // Fetch reviews of this logged-in user from server
+            fetch(`http://localhost:3000/reviews?email=${user.email}`)
+                .then(res => res.json())
+                .then(data => setMyReviews(data));
+        }
+    }, [user]);
 
     return (
         <div className="w-10/12 mx-auto my-10">

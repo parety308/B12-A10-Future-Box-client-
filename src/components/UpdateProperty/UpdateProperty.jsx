@@ -20,21 +20,23 @@ const UpdateProperty = () => {
         propertyImage: "",
     });
 
-    // Pre-fill when data arrives
+    const [updating, setUpdating] = useState(false);
+
+    // Pre-fill form when data arrives
     useEffect(() => {
         if (loadedProperty) {
             setFormData({
-                propertyName: loadedProperty.propertyName,
-                description: loadedProperty.description,
-                category: loadedProperty.category,
-                price: loadedProperty.price,
-                location: loadedProperty.location,
-                propertyImage: loadedProperty.propertyImage,
+                propertyName: loadedProperty.propertyName || "",
+                description: loadedProperty.description || "",
+                category: loadedProperty.category || "",
+                price: loadedProperty.price || "",
+                location: loadedProperty.location || "",
+                propertyImage: loadedProperty.propertyImage || "",
             });
         }
     }, [loadedProperty]);
 
-    // Handle change
+    // Handle form field changes
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -42,11 +44,12 @@ const UpdateProperty = () => {
         });
     };
 
-    // Handle update
+    // Handle property update
     const handleUpdate = (e) => {
         e.preventDefault();
+        setUpdating(true);
 
-        fetch(`http://localhost:3000/${id}`, {
+        fetch(`http://localhost:3000/items/${id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -58,8 +61,10 @@ const UpdateProperty = () => {
                 postedDate: new Date().toISOString(),
             }),
         })
-            .then((res) => res.json())
-            .then(() => {
+            .then(res => res.json())
+            .then((data) => {
+                setUpdating(false);
+
                 Swal.fire({
                     icon: "success",
                     title: "Property Updated Successfully!",
@@ -67,10 +72,28 @@ const UpdateProperty = () => {
                     showConfirmButton: false,
                 });
 
-                // Navigate to updated property details page
+                // Option 1: Navigate to the property details page
                 navigate(`/property/${id}`);
+
+                // Option 2: Or keep user on same page with updated form
+                // setFormData({
+                //     propertyName: data.propertyName,
+                //     description: data.description,
+                //     category: data.category,
+                //     price: data.price,
+                //     location: data.location,
+                //     propertyImage: data.propertyImage,
+                // });
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                setUpdating(false);
+                console.error(err);
+                Swal.fire({
+                    icon: "error",
+                    title: "Update Failed",
+                    text: "Something went wrong. Try again later.",
+                });
+            });
     };
 
     return (
@@ -187,9 +210,12 @@ const UpdateProperty = () => {
                 {/* Update Button */}
                 <button
                     type="submit"
-                    className="w-full bg-blue-600 text-white p-3 rounded-lg text-lg font-semibold hover:bg-blue-700"
+                    disabled={updating}
+                    className={`w-full p-3 rounded-lg text-lg font-semibold text-white ${
+                        updating ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"
+                    }`}
                 >
-                    Update Property
+                    {updating ? "Updating..." : "Update Property"}
                 </button>
             </form>
         </div>
