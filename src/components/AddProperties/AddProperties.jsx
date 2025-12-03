@@ -1,8 +1,10 @@
 import { use } from "react";
 import { AuthContext } from "../../Provider/AuthContext";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
 const AddProperties = () => {
   const { user } = use(AuthContext);
+  const navigate = useNavigate();
 
   const handleCreate = (e) => {
     e.preventDefault();
@@ -32,7 +34,7 @@ const AddProperties = () => {
     // console.log(newProperty);
 
     // TODO: send newProperty to your backend API
-    fetch('http://localhost:3000',
+    fetch('http://localhost:3000/items',
       {
         method: 'POST',
         body: JSON.stringify(newProperty),
@@ -43,14 +45,15 @@ const AddProperties = () => {
         Swal.fire({
           position: "top-end",
           icon: "success",
-          title: "Sign In Successfully",
+          title: "Property Added Successfully",
           showConfirmButton: false,
           timer: 1500
         });
-        // console.log('Success:', data);
+        navigate('/allProperties');
+        e.target.reset();
       });
 
-    e.target.reset();
+   
   };
 
   return (

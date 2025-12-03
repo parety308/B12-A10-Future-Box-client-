@@ -102,6 +102,56 @@ const PropertyDetails = () => {
             });
     };
 
+    // HANDLE PROPERTY DELETE
+    const handleDelete = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`http://localhost:3000/items/${_id}`, {
+                    method: "DELETE"
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.deletedCount > 0) {
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Property has been deleted.",
+                            icon: "success"
+                        });
+
+                        // Clear reviews UI immediately
+                        setPropertyReviews([]);
+
+                        // Navigate back after short delay
+                        setTimeout(() => navigate('/allProperties'), 1000);
+
+                    } else {
+                        Swal.fire({
+                            title: "Error!",
+                            text: "Property could not be deleted.",
+                            icon: "error"
+                        });
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                    Swal.fire({
+                        title: "Error!",
+                        text: "Something went wrong while deleting.",
+                        icon: "error"
+                    });
+                });
+            }
+        });
+    };
+
     return (
         <div className="w-10/12 mx-auto my-5">
             <h1 className='text-center text-5xl my-15 font-bold text-green-900'>
@@ -130,10 +180,17 @@ const PropertyDetails = () => {
                     <p><span className='font-semibold'>Price:</span> {price} BDT</p>
 
                     <div className="card-actions justify-between">
-                        <Link onClick={() => navigate(-1)} className="btn btn-primary">
+                        <button onClick={() => navigate(-1)} className="btn btn-primary">
                             Go Back
-                        </Link>
-                        <button onClick={()=>navigate(`/updateProperty/${_id}`)} className="btn btn-primary">Update</button>
+                        </button>
+                        <div className="flex justify-between items-center gap-4">
+                            <button onClick={handleDelete} className="btn border-red-500 text-red-500 mr-2">
+                                Delete
+                            </button>
+                            <Link to={`/updateProperty/${_id}`} className="btn btn-primary">
+                                Update
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
