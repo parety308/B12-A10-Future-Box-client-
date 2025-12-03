@@ -47,14 +47,14 @@ export const router = createBrowserRouter([
       },
       {
         path: "/property/:id",
-        loader: ({ params }) => fetch(`http://localhost:3000/${params.id}`),
+        loader: ({ params }) => fetch(`http://localhost:3000/items/${params.id}`),
         Component: PropertyDetails
       },
       {
         path: "/updateProperty/:id",
         element: <PrivateRoutes><UpdateProperty /></PrivateRoutes>,
         loader: ({ params }) =>
-          fetch(`http://localhost:3000/${params.id}`)
+          fetch(`http://localhost:3000/items/${params.id}`)
       }
 
     ]

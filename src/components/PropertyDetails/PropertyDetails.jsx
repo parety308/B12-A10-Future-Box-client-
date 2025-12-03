@@ -3,12 +3,13 @@ import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Provider/AuthContext";
+import Swal from "sweetalert2";
 
 const PropertyDetails = () => {
     const property = useLoaderData();
     const navigate = useNavigate();
     const { user, reviews, setReviews } = useContext(AuthContext);
-    
+
     const [rating, setRating] = useState(3);
     const [reviewText, setReviewText] = useState("");
 
@@ -21,16 +22,37 @@ const PropertyDetails = () => {
         category,
         propertyImage,
         postedDate,
-        postedBy: { name, email, profilePhoto }
+        postedBy = {}
     } = property;
 
+    const { name } = postedBy;
+
+    //   HANDLE REVIEW SUBMIT
     const handleReviewSubmit = (e) => {
         e.preventDefault();
 
+        if (!user) {
+            Swal.fire({
+                icon: "error",
+                title: "Login Required",
+                text: "You must be logged in to post a review.",
+            });
+            return;
+        }
+
+        if (rating <= 0) {
+            Swal.fire({
+                icon: "error",
+                title: "Rating Missing",
+                text: "Please give a rating before submitting.",
+            });
+            return;
+        }
+
         const newReview = {
-            propertyId: _id,              // ⭐ VERY IMPORTANT
+            propertyId: _id,
             propertyName,
-            propertyImage,                // thumbnail
+            propertyImage,
             reviewerName: user?.displayName,
             reviewerEmail: user?.email,
             rating,
@@ -38,13 +60,44 @@ const PropertyDetails = () => {
             date: new Date().toLocaleString(),
         };
 
-        setReviews([...reviews, newReview]); 
+        // --------------------------
+        //   SEND TO SERVER
+        // --------------------------
+        fetch("http://localhost:3000/reviews", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newReview),
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.insertedId) {
+                    // Update UI instantly
+                    setReviews([...reviews, newReview]);
 
-        setReviewText("");
-        setRating(0);
+                    Swal.fire({
+                        icon: "success",
+                        title: "Review Submitted!",
+                        text: "Thanks for sharing your feedback.",
+                        timer: 1500,
+                        showConfirmButton: false,
+                    });
+
+                    setReviewText("");
+                    setRating(3);
+                }
+            })
+            .catch(err => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Something went wrong!",
+                    text: "Unable to submit review. Try again later.",
+                });
+                console.log(err);
+            });
     };
 
-    // ⭐ FILTER REVIEWS FOR THIS SPECIFIC PROPERTY
+    // --------------------------
+    //   FILTER REVIEWS
     const propertyReviews = reviews.filter(
         (rev) => rev.propertyId === _id
     );
@@ -78,7 +131,12 @@ const PropertyDetails = () => {
                     <p><span className='font-semibold'>Price:</span> {price} BDT</p>
 
                     <div className="card-actions justify-between">
-                        <Link onClick={() => navigate(-1)} className="btn btn-primary">Go Back</Link>
+                        <Link 
+                            onClick={() => navigate(-1)} 
+                            className="btn btn-primary"
+                        >
+                            Go Back
+                        </Link>
                         <button className="btn btn-primary">Add To Cart</button>
                     </div>
                 </div>
@@ -126,7 +184,6 @@ const PropertyDetails = () => {
                     {propertyReviews.map((rev, idx) => (
                         <div key={idx} className="p-4 border rounded-lg mb-4 flex gap-4">
 
-                            {/* Thumbnail */}
                             <img
                                 src={rev.propertyImage}
                                 className="w-24 h-20 object-cover rounded"
@@ -136,7 +193,6 @@ const PropertyDetails = () => {
                             <div>
                                 <h4 className="font-bold">{rev.propertyName}</h4>
 
-                                {/* Reviewer */}
                                 <p className="text-sm text-gray-600">
                                     Reviewer: {rev.reviewerName}
                                 </p>
