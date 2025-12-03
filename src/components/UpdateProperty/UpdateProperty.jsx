@@ -49,7 +49,7 @@ const UpdateProperty = () => {
         e.preventDefault();
         setUpdating(true);
 
-        fetch(`http://localhost:3000/items/${id}`, {
+        fetch(`https://assignment-10-server-ten-dun.vercel.app/items/${id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -211,9 +211,8 @@ const UpdateProperty = () => {
                 <button
                     type="submit"
                     disabled={updating}
-                    className={`w-full p-3 rounded-lg text-lg font-semibold text-white ${
-                        updating ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"
-                    }`}
+                    className={`w-full p-3 rounded-lg text-lg font-semibold text-white ${updating ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"
+                        }`}
                 >
                     {updating ? "Updating..." : "Update Property"}
                 </button>

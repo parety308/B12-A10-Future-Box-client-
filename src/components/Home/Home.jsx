@@ -5,15 +5,15 @@ import WhyChooseUs from '../WhyChooseUs/WhyChooseUs';
 import ExploreCategories from '../ExploreCategories/ExploreCategories';
 import HowItWorks from '../HowItWorks/HowItWorks';
 
-const latestProperties = fetch('http://localhost:3000/recent-items').then(res => res.json());
+const latestProperties = fetch('https://assignment-10-server-ten-dun.vercel.app/recent-items').then(res => res.json());
 const Home = () => {
     return (
         <div>
             <Banner></Banner>
             <LatestProperties latestProperties={latestProperties}></LatestProperties>
-            <WhyChooseUs/>
-            <ExploreCategories/>
-            <HowItWorks/>
+            <WhyChooseUs />
+            <ExploreCategories />
+            <HowItWorks />
         </div>
     );
 };

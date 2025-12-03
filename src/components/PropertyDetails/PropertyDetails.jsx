@@ -30,7 +30,7 @@ const PropertyDetails = () => {
 
     // Fetch reviews for this property
     useEffect(() => {
-        fetch(`http://localhost:3000/reviews/${_id}`)
+        fetch(`https://assignment-10-server-ten-dun.vercel.app/reviews/${_id}`)
             .then(res => res.json())
             .then(data => setPropertyReviews(data))
             .catch(err => console.log(err));
@@ -69,7 +69,7 @@ const PropertyDetails = () => {
             date: new Date().toLocaleString(),
         };
 
-        fetch("http://localhost:3000/reviews", {
+        fetch("https://assignment-10-server-ten-dun.vercel.app/reviews", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newReview),
@@ -114,40 +114,40 @@ const PropertyDetails = () => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:3000/items/${_id}`, {
+                fetch(`https://assignment-10-server-ten-dun.vercel.app/items/${_id}`, {
                     method: "DELETE"
                 })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.deletedCount > 0) {
-                        Swal.fire({
-                            title: "Deleted!",
-                            text: "Property has been deleted.",
-                            icon: "success"
-                        });
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.deletedCount > 0) {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Property has been deleted.",
+                                icon: "success"
+                            });
 
-                        // Clear reviews UI immediately
-                        setPropertyReviews([]);
+                            // Clear reviews UI immediately
+                            setPropertyReviews([]);
 
-                        // Navigate back after short delay
-                        setTimeout(() => navigate('/allProperties'), 1000);
+                            // Navigate back after short delay
+                            setTimeout(() => navigate('/allProperties'), 1000);
 
-                    } else {
+                        } else {
+                            Swal.fire({
+                                title: "Error!",
+                                text: "Property could not be deleted.",
+                                icon: "error"
+                            });
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
                         Swal.fire({
                             title: "Error!",
-                            text: "Property could not be deleted.",
+                            text: "Something went wrong while deleting.",
                             icon: "error"
                         });
-                    }
-                })
-                .catch(err => {
-                    console.log(err);
-                    Swal.fire({
-                        title: "Error!",
-                        text: "Something went wrong while deleting.",
-                        icon: "error"
                     });
-                });
             }
         });
     };

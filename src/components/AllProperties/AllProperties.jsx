@@ -9,7 +9,7 @@ const AllProperties = () => {
     // Fetch all properties from server
     const fetchProperties = () => {
         setLoading(true);
-        fetch('http://localhost:3000/items')
+        fetch('https://assignment-10-server-ten-dun.vercel.app/items')
             .then(res => res.json())
             .then(data => {
                 setAllProperties(data);
@@ -33,19 +33,19 @@ const AllProperties = () => {
 
             {loading ? (
                 // <p className="text-center text-gray-500">Loading properties...</p>
-            // ) : allProperties.length === 0 ? (
+                // ) : allProperties.length === 0 ? (
                 // <p className="text-center text-gray-500">No properties found.</p>
-            <Loader/>) 
-            : (
-                <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-8'>
-                    {allProperties.map(property => (
-                        <LatestProperty
-                            property={property}
-                            key={property._id}
-                        />
-                    ))}
-                </div>
-            )}
+                <Loader />)
+                : (
+                    <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-8'>
+                        {allProperties.map(property => (
+                            <LatestProperty
+                                property={property}
+                                key={property._id}
+                            />
+                        ))}
+                    </div>
+                )}
         </div>
     );
 };

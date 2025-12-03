@@ -48,18 +48,18 @@ export const router = createBrowserRouter([
       },
       {
         path: "/property/:id",
-        loader: ({ params }) => fetch(`http://localhost:3000/items/${params.id}`),
-        Component: PropertyDetails
+        loader: ({ params }) => fetch(`https://assignment-10-server-ten-dun.vercel.app/items/${params.id}`),
+       element: <PrivateRoutes><PropertyDetails /></PrivateRoutes>
       },
       {
         path: "/updateProperty/:id",
         element: <PrivateRoutes><UpdateProperty /></PrivateRoutes>,
         loader: ({ params }) =>
-          fetch(`http://localhost:3000/items/${params.id}`)
+          fetch(`https://assignment-10-server-ten-dun.vercel.app/items/${params.id}`)
       },
       {
         path: "*",
-        Component:ErrorPage
+        Component: ErrorPage
       }
 
     ]
