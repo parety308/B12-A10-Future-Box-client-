@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import LatestProperty from '../LatestProperties/LatestProperty';
+import Loader from '../Laoder/Loader';
 
 const AllProperties = () => {
     const [allProperties, setAllProperties] = useState([]);
@@ -31,10 +32,11 @@ const AllProperties = () => {
             </h1>
 
             {loading ? (
-                <p className="text-center text-gray-500">Loading properties...</p>
-            ) : allProperties.length === 0 ? (
-                <p className="text-center text-gray-500">No properties found.</p>
-            ) : (
+                // <p className="text-center text-gray-500">Loading properties...</p>
+            // ) : allProperties.length === 0 ? (
+                // <p className="text-center text-gray-500">No properties found.</p>
+            <Loader/>) 
+            : (
                 <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-8'>
                     {allProperties.map(property => (
                         <LatestProperty

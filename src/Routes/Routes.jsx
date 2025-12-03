@@ -10,6 +10,7 @@ import Signup from "../Authentiaction/Signup/Signup"
 import PropertyDetails from "../components/PropertyDetails/PropertyDetails";
 import PrivateRoutes from "./PrivateRoutes";
 import UpdateProperty from "../components/UpdateProperty/UpdateProperty";
+import ErrorPage from "../components/ErrorPage/ErrorPage";
 export const router = createBrowserRouter([
 
   {
@@ -55,6 +56,10 @@ export const router = createBrowserRouter([
         element: <PrivateRoutes><UpdateProperty /></PrivateRoutes>,
         loader: ({ params }) =>
           fetch(`http://localhost:3000/items/${params.id}`)
+      },
+      {
+        path: "*",
+        Component:ErrorPage
       }
 
     ]
