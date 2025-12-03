@@ -3,6 +3,7 @@ import Banner from '../Banner/Banner';
 import LatestProperties from '../LatestProperties/LatestProperties';
 import WhyChooseUs from '../WhyChooseUs/WhyChooseUs';
 import ExploreCategories from '../ExploreCategories/ExploreCategories';
+import HowItWorks from '../HowItWorks/HowItWorks';
 
 const latestProperties = fetch('http://localhost:3000/recent-items').then(res => res.json());
 const Home = () => {
@@ -12,6 +13,7 @@ const Home = () => {
             <LatestProperties latestProperties={latestProperties}></LatestProperties>
             <WhyChooseUs/>
             <ExploreCategories/>
+            <HowItWorks/>
         </div>
     );
 };

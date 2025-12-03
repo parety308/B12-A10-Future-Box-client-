@@ -28,7 +28,7 @@ const ExploreCategories = () => {
     return (
         <section className="py-16 bg-white">
             <div className="max-w-7xl mx-auto px-4">
-                <h2 className="text-3xl font-bold text-center mb-4">Explore Property Categories</h2>
+                <h2 className="text-3xl font-semibold text-center mb-5">Explore Property Categories</h2>
                 <p className="text-gray-600 text-center mb-10">
                     Browse properties based on your needs and discover the perfect match.
                 </p>
