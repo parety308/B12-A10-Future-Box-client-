@@ -140,10 +140,10 @@ nodemon index.js
 ## 🖼️ More Screenshots
 
 ### 🔐 Login Page
-![Login]([https://i.ibb.co.com/MDN3J2Vv/Chat-GPT-Image-Apr-13-2026-11-19-10-AM.png](https://i.ibb.co.com/zVrByjy9/image.png))
+![Login](https://i.ibb.co.com/MDN3J2Vv/Chat-GPT-Image-Apr-13-2026-11-19-10-AM.png](https://i.ibb.co.com/zVrByjy9/image.png))
 
 ### 🏠 Property Details
-![Details]([https://i.ibb.co.com/MDN3J2Vv/Chat-GPT-Image-Apr-13-2026-11-19-10-AM.png](https://i.ibb.co.com/21NhNrV6/image.png))
+![Details](https://i.ibb.co.com/MDN3J2Vv/Chat-GPT-Image-Apr-13-2026-11-19-10-AM.png](https://i.ibb.co.com/21NhNrV6/image.png))
 ---
 
 ## 🚀 Future Enhancements
